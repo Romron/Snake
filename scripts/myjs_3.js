@@ -2,9 +2,10 @@ window.onload = function(){
 
 	arr_MainField = create_MainField(20,20);
 	Snake = create_Snake();
-	move_Snake(arr_MainField,Snake,6,380,3);
-	
-
+	// move_Snake(arr_MainField,Snake,380,6,1);
+	// move_Snake(arr_MainField,Snake,6,380,2);
+	// move_Snake(arr_MainField,Snake,10,390,3);
+	move_Snake(arr_MainField,Snake,390,10,4);
 }
 
 function create_MainField(Colums=10,Strings=10){
@@ -110,6 +111,12 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,mode_Move=
 			vertical_time = setInterval(vertical_Move,200,stop_Field);
 
 		 	break
+		case 4:
+			console.log("case 4 ");
+
+			vertical_time = setInterval(vertical_Move,200,stop_Field);
+
+			break
 	}
 
 
@@ -118,8 +125,6 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,mode_Move=
 
 		if (mode_Move == 2) {
 			firstElement_Snake = arr_MainField[start_Field - length_Snake].querySelector("div .class_snake");
-			console.log("firstElement_Snake = ", firstElement_Snake);
-			console.log("typeof(firstElement_Snake) = ", typeof(firstElement_Snake));
 		}else{
 			firstElement_Snake = arr_MainField[start_Field + length_Snake].querySelector("div .class_snake");
 		}
@@ -151,43 +156,55 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,mode_Move=
 			}
 	    }
 	}
-
+	let k = 0
+	let firstElement_Snake 
 	function vertical_Move(stop_Field){
 		n = 0
-		
-		// console.log("start_Field = ", start_Field);
-
-		firstElement_Snake = arr_MainField[start_Field].querySelector("div .class_snake");
-
-		console.log("firstElement_Snake = ", firstElement_Snake);
-		console.log("typeof(firstElement_Snake) = ", typeof(firstElement_Snake));
-		// console.log("firstElement_Snake = ", firstElement_Snake);
-
-		if (firstElement_Snake != null) {
-			firstElement_Snake.remove();		    	
-		}
-
-		while(n < 1){
-			divSnake = arr_MainField[start_Field];
-			snake = document.createElement('div');
-			snake.className = "class_snake";
-			divSnake.append(snake);	
-			n ++;
-			start_Field = start_Field + 20;
-		}
-
-
-
-		if (stop_Field < start_Field) {		// !!!!
-			clearInterval(vertical_time)
+		if (mode_Move == 3){
+			if (k == 3){
+				firstElement_Snake = arr_MainField[start_Field - 60].querySelector("div .class_snake");
+			}
+			if (firstElement_Snake != null) {
+				firstElement_Snake.remove();		    	
+			}
+				divSnake = arr_MainField[start_Field];
+				snake = document.createElement('div');
+				snake.className = "class_snake";
+				divSnake.append(snake);	
+				start_Field = start_Field + 20;
+				if (k == 3){
+					k = 3
+				}else{
+					k ++
+				}
+			if (stop_Field < start_Field) {	
+				clearInterval(vertical_time)
+			}
+		}else{
+			if (k == 3){
+				firstElement_Snake = arr_MainField[start_Field + 60].querySelector("div .class_snake");
+			}
+			if (firstElement_Snake != null) {
+				firstElement_Snake.remove();		    	
+			}
+				divSnake = arr_MainField[start_Field];
+				snake = document.createElement('div');
+				snake.className = "class_snake";
+				divSnake.append(snake);	
+				start_Field = start_Field - 20;
+				if (k == 3){
+					k = 3
+				}else{
+					k ++
+				}
+			if (stop_Field > start_Field) {		
+				clearInterval(vertical_time)
+			}	
 		}
 	}
-
-
-
-
-
 }
+
+
 
 
 
