@@ -1,0 +1,47 @@
+/*
+
+#main-field{
+	background: green;
+	width: 90%;
+	height: 600px;
+	margin: auto;
+}
+
+.field{
+
+	background: brown;
+	width: 10%;
+	height: 10%;
+	border: 1px solid black;
+	margin: -1px;
+
+	display: inline-block;
+}
+
+.markovka{
+	width: 30%;
+	height: 30%;
+	background: orange;
+	margin: auto;
+
+}
+.snake{
+	width: 90%;
+	height: 60%;
+    background: green;
+    margin-top: -6px;
+    margin-bottom: auto;
+    margin-right:  auto;
+    margin-left: auto;
+
+}
+
+#f22, #f24, #f26, #f28{
+	background: purple;
+}
+
+*/
+canvas {
+	display: block;
+	margin: 0 auto;
+}

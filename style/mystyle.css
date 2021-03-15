@@ -1,0 +1,42 @@
+
+
+#main-field{
+	background: grey;
+	width: 90%;
+	height: 600px;
+	margin: auto;
+}
+
+.field{
+
+	background: brown;
+	width: 5%;
+	height: 5%;
+	border: 1px solid black;
+	margin: -1px;
+
+	display: inline-block;
+}
+
+.class_markovka{
+	width: 30%;
+	height: 30%;
+	background: orange;
+	margin: auto;
+
+}
+.class_snake {
+	width: 95%;
+	height: 95%;
+    background: green;
+    margin: auto;
+    /*position:  	relative;*/
+    margin-top: -18px;
+    margin-left: 1px;
+/*    margin-bottom: auto;
+    margin-right:  auto;
+*/
+}
+
+	
+
