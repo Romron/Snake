@@ -1,9 +1,14 @@
+let firstElement_Snake;
+let k = 0;	// первая отрисовка змеи
+
 window.onload = function(){
 
-	arr_MainField = create_MainField();
-	Snake_U = create_Snake();
-	move_Snake(arr_MainField,Snake_U,10,30);
-	
+	arr_MainField = create_MainField(20,20);
+	Snake = create_Snake();
+	move_Snake(arr_MainField,Snake,380,6,1);
+	// move_Snake(arr_MainField,Snake,6,380,2);
+	// move_Snake(arr_MainField,Snake,10,390,3);
+	// move_Snake(arr_MainField,Snake,390,10,4);
 
 }
 
@@ -59,34 +64,145 @@ function create_Snake(lengthSnake=3){
     return arr_divSnake;
 }
 
-function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field){
+// -------------------------------------------------------------------
+
+/*
+	Режимы движения:
+		- движение змеи должно быть бесконечным !!!
+		- по кольцу 
+			достигая стенки продалжает 
+			движение в том же направлении 
+			но с начала ряда
+		- зеркальные стенки
+			змея отражается от стен и 
+			движется в обратном направлении
+	Направления движения
+		+ слева направо
+		+ с права на лево
+		+ сверху вниз
+		+ снизу вверх
+*/
+
+
+
+function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Move=1,mode_Move=1){
 	/*
 		отображает и двигает змею на поле
 	*/
 	
-	let time_q = setInterval(q,200,stop_Field);
-    let element;
-    
-	function q(stopField){
+	let length_Snake = arr_divSnake.length;
+
+	let horizont_time;
+
+	switch(direct_Move) {
+		case 1:  // движение справа на лево
+			console.log("case 1 ");
+			horizont_time = setInterval(horizont_Move,200,stop_Field);
+			break
+		case 2:  // движение слева на право
+			console.log("case 2 ");
+			horizont_time = setInterval(horizont_Move,200,stop_Field);
+		 	break
+		case 3:  // движение сверху вниз
+			console.log("case 3 ");
+			vertical_time = setInterval(vertical_Move,200,stop_Field);
+		 	break
+		case 4: // движение снизу вверх
+			console.log("case 4 ");
+			vertical_time = setInterval(vertical_Move,200,stop_Field);
+			break
+	}
+
+
+	function horizont_Move(stop_Field){
 		n = 0;
 
-		firstElement_Snake = arr_MainField[start_Field-3].querySelector("div .class_snake");
+		if (direct_Move == 2) {
+			firstElement_Snake = arr_MainField[start_Field - length_Snake].querySelector("div .class_snake");
+		}else{
+			firstElement_Snake = arr_MainField[start_Field + length_Snake].querySelector("div .class_snake");
+		}
+
 	    if (firstElement_Snake != null) {
-	    	firstElement_Snake.remove();	
+	    	firstElement_Snake.remove();		    	
 		}
 
 	    while(n < 1){
-		   	divSnake = arr_MainField[start_Field];
+		   divSnake = arr_MainField[start_Field];
 			snake = document.createElement('div');
-		    snake.className = "class_snake";
-		    divSnake.append(snake);	
-		    start_Field ++;
-		    n ++;
+		   snake.className = "class_snake";
+		   divSnake.append(snake);	
+		   if (direct_Move == 2) {
+		   	start_Field ++;			//	!!!!
+		   }else{
+		   	start_Field --;
+		   }
+		   n ++;
 	    }
-	    if (start_Field > stopField) {
-		    	clearInterval(time_q)
-		}
 
+	    if (direct_Move == 2) {
+		    if (stop_Field < start_Field) {		// !!!!
+			    	clearInterval(horizont_time)
+			}
+	    } else {
+	    	if (stop_Field > start_Field) {		// !!!!
+		    	clearInterval(horizont_time)
+			}
+	    }
 	}
+
+	function vertical_Move(stop_Field){
+		n = 0
+		if (direct_Move == 3){
+			if (k == 3){
+				firstElement_Snake = arr_MainField[start_Field - 60].querySelector("div .class_snake");
+			}
+			if (firstElement_Snake != null) {
+				firstElement_Snake.remove();		    	
+			}
+				divSnake = arr_MainField[start_Field];
+				snake = document.createElement('div');
+				snake.className = "class_snake";
+				divSnake.append(snake);	
+				start_Field = start_Field + 20;
+				if (k == 3){
+					k = 3
+				}else{
+					k ++
+				}
+			if (stop_Field < start_Field) {	
+				clearInterval(vertical_time)
+			}
+		}else{
+			if (k == 3){
+				firstElement_Snake = arr_MainField[start_Field + 60].querySelector("div .class_snake");
+			}
+			if (firstElement_Snake != null) {
+				firstElement_Snake.remove();		    	
+			}
+				divSnake = arr_MainField[start_Field];
+				snake = document.createElement('div');
+				snake.className = "class_snake";
+				divSnake.append(snake);	
+				start_Field = start_Field - 20;
+				if (k == 3){
+					k = 3
+				}else{
+					k ++
+				}
+			if (stop_Field > start_Field) {		
+				clearInterval(vertical_time)
+			}	
+		}
+	}
+
+
+	function colco (arr_MainField,arr_divSnake,start_Field,stop_Field,mode_Move=1, length_Snake=3){
+		console.log('***')
+	}
+
 }
+
+
+
 

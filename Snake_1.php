@@ -34,9 +34,7 @@
 </div>
 
 
-<!-- <script src="scripts/myjs_1.js"></script> -->
-<!-- <script src="scripts/myjs_2.js"></script> -->
-<script src="scripts/myjs_3.js"></script>
+<script src="scripts/myjs.js"></script>
 
 
 <div><script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
