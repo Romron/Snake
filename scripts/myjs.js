@@ -91,7 +91,6 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Mov
 	*/
 	
 	let length_Snake = arr_divSnake.length;
-
 	let horizont_time;
 
 	switch(direct_Move) {
@@ -122,7 +121,6 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Mov
 		}else{
 			firstElement_Snake = arr_MainField[start_Field + length_Snake].querySelector("div .class_snake");
 		}
-
 	    if (firstElement_Snake != null) {
 	    	firstElement_Snake.remove();		    	
 		}
@@ -133,22 +131,30 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Mov
 		   snake.className = "class_snake";
 		   divSnake.append(snake);	
 		   if (direct_Move == 2) {
-		   	start_Field ++;			//	!!!!
+		   	start_Field ++;			
 		   }else{
 		   	start_Field --;
 		   }
 		   n ++;
 	    }
 
-	    if (direct_Move == 2) {
-		    if (stop_Field < start_Field) {		// !!!!
+	    // direct_Move = 1 тогда движение по кольцу
+	    // иначе сработает clearInterval
+		if (direct_Move == 1) {
+			
+			Move_on_ring();
+
+		} else {
+		    if (direct_Move == 2) {
+			    if (stop_Field < start_Field) {		
+				    	clearInterval(horizont_time)
+				}
+		    } else {
+		    	if (stop_Field > start_Field) {		
 			    	clearInterval(horizont_time)
-			}
-	    } else {
-	    	if (stop_Field > start_Field) {		// !!!!
-		    	clearInterval(horizont_time)
-			}
-	    }
+				}
+		    }
+		}
 	}
 
 	function vertical_Move(stop_Field){
@@ -197,8 +203,27 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Mov
 	}
 
 
-	function colco (arr_MainField,arr_divSnake,start_Field,stop_Field,mode_Move=1, length_Snake=3){
-		console.log('***')
+	function Move_on_ring(){
+		console.log('Move_on_ring start')
+
+		console.log("start_Field = ", start_Field);
+		let q = start_Field % 20;
+		console.log("q = ", q);
+
+		if (q == 0) {
+			firstElement_Snake = arr_MainField[start_Field + length_Snake].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
+			firstElement_Snake.remove();		    	
+			start_Field = start_Field + 19;	// начинаю рисовать змею с начала того же ряда
+		}
+			firstElement_Snake = arr_MainField[start_Field + length_Snake - 20].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
+			if (firstElement_Snake != null) {
+			firstElement_Snake.remove();		    	
+			}		
+
+			 
+
+
+
 	}
 
 }
