@@ -1,19 +1,30 @@
+/* TODO:
+	вынести длину змеи в глобальную переменную
+
+*/
+
+
+let Colums = 20;		// кол-во колонок в MainField
+let Strings = 20;		// кол-во рядов в MainField
+
+
 let firstElement_Snake;
 let k = 0;	// первая отрисовка змеи
 let pointer_end_row = 0;  // указатель конца ряда
 let counter_row = 1;	// счётчик количества пройденных строк
 let counter_row_fact  // счётчик количества пройденных строк
-// let q = 0		// счётчик начала колонки
 let flag_last_row = 1;
 let del_Field = 0; // поле удаления
+
+
 window.onload = function(){
 
-	arr_MainField = create_MainField(20,20);		// создание массива полей
+	arr_MainField = create_MainField(Colums,Strings);		// создание массива полей
 	Snake = create_Snake();		// создание змеи
 	// move_Snake(arr_MainField,Snake,380,6,1,2);
 	// move_Snake(arr_MainField,Snake,23,380,2,2);
-	move_Snake(arr_MainField,Snake,10,390,3,2);
-	// move_Snake(arr_MainField,Snake,390,10,4,2);
+	// move_Snake(arr_MainField,Snake,10,390,3,2);
+	move_Snake(arr_MainField,Snake,390,10,4,2);
 
 }
 
@@ -149,78 +160,77 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Mov
 
 	}
 
-	function vertical_Move(stop_Field, counter_row){		// вертикальное движение
-		n = 0
+	// function vertical_Move(stop_Field, counter_row){		// вертикальное движение
+	function vertical_Move(stop_Field){		// буду расчитывать текущий ряд внутри ф-ции в переменной counter_row_fact
 
-		del_Field = start_Field - 60;		// номерполя из которого нужно удалить сегмент змеи
-
+		counter_row_fact = ~~(start_Field / 20) + 1;		// находим текущий ряд
+		console.log("counter_row_fact", counter_row_fact);
+		console.log("start_Field = ", start_Field);
+		console.log("del_Field = ", del_Field);
+		console.log("k = ", k);
 
 		if (direct_Move == 3){	//	движение сверху вниз
 
-			// если к < 3 то текущие ряд меньше 3 а это значить что del_Field отрицательное число
-			console.log("*del_Field = ", del_Field);
-			if (k >= 3){		// если нарисовано три сегмента тела змеи то получить последний сигмент
-				firstElement_Snake = arr_MainField[del_Field].querySelector("div .class_snake");		// ищем последний кусок тела змеи
-			}
-			if (firstElement_Snake != null) {		// удаляем последний кусок тела змеи
-				firstElement_Snake.remove();		    	
-			}
+			one_Frame();
 
+			// расчёт номера поля для следующего положения головы змеи
 
-
-			console.log("*start_Field = ", start_Field);
-			divSnake = arr_MainField[start_Field];	  // находим поле в которое нужно поместить следуйщий кусок змеи
-			snake = document.createElement('div');	  // создаём следущий кусок змеи
-			snake.className = "class_snake";			  // присваевоем ему класс
-			divSnake.append(snake);				// помещаем его на поле
-
-			if (mode_Move == 2){		//		включаю режим движения по кольцу
-					Move_on_ring();
-			}
-			if (counter_row != 20 || counter_row != 21){		// если сейчас 20 или 21 ряд тогда этот переход на новый ряд будет неактивен			
-				start_Field = start_Field + 20;
-			}
 			if (k == 3){			// если уже нарисовано 3 сегмента тогда больше не рисовать 
 				k = 3
 			}else{		// иначе создать ещё
 				k ++
 			}
-			if (mode_Move == 1){		// делаем движение конечным
-				if (stop_Field < start_Field) {	
-					clearInterval(vertical_time)
-				}
+
+			if (mode_Move == 1 && stop_Field < start_Field){		// делаем движение конечным
+					clearInterval(vertical_time);
+			}else if(mode_Move == 2 && counter_row_fact >= Strings || mode_Move == 2 && del_Field >= 340){
+				Move_on_ring();
+			}else{
+				start_Field = start_Field + 20;
+				del_Field = start_Field - 60;		// номерполя из которого нужно удалить сегмент змеи
 			}
 
 		}else{	// direct_Move = 4 движение снизу вверх
-				if (k == 3){
-					firstElement_Snake = arr_MainField[start_Field + 60].querySelector("div .class_snake");
-				}
-				if (firstElement_Snake != null) {
-					firstElement_Snake.remove();		    	
-				}
-				divSnake = arr_MainField[start_Field];
-				snake = document.createElement('div');
-				snake.className = "class_snake";
-				divSnake.append(snake);	
 
-				if (mode_Move == 2){		//		включаю режим движения по кольцу
-					Move_on_ring();
-				}	
-
-				start_Field = start_Field - 20;
+				one_Frame();
 
 				if (k == 3){
 					k = 3
 				}else{
 					k ++
 				}
-				if (stop_Field > start_Field) {		
-					clearInterval(vertical_time)
-				}
+
+			if (mode_Move == 1 && stop_Field > start_Field){		// делаем движение конечным
+					clearInterval(vertical_time);
+			}else if(mode_Move == 2 && counter_row_fact <= 1 || mode_Move == 2 && del_Field <= 70 && k < 3){   // 3 это lengthSnake 
+				Move_on_ring();
+			}else{
+				start_Field = start_Field - 20;
+				console.log("***start_Field", start_Field);
+				del_Field = start_Field + 60;		// номер поля из которого нужно удалить сегмент змеи
+				console.log("***del_Field = ", del_Field);
 			}
 
+			}
 		}
-	function Move_on_ring(counter_row){
+
+	function one_Frame(){
+		// отрисовки кадра
+
+		// если к < 3 то текущие ряд меньше 3 а это значить что del_Field отрицательное число
+		if (k >= 3){		// если нарисовано три сегмента тела змеи то получить последний сигмент
+			firstElement_Snake = arr_MainField[del_Field].querySelector("div .class_snake");		// ищем последний кусок тела змеи
+		}
+		if (firstElement_Snake != null) {		// удаляем последний кусок тела змеи
+			firstElement_Snake.remove();		    	
+		}
+		divSnake = arr_MainField[start_Field];	  // находим поле в которое нужно поместить следуйщий кусок змеи
+		snake = document.createElement('div');	  // создаём следущий кусок змеи
+		snake.className = "class_snake";			  // присваевоем ему класс
+		divSnake.append(snake);				// помещаем его на поле
+	}
+
+	function Move_on_ring(){
 		if (direct_Move == 1){	// движение с права на лево 
 			let pointer_end_row = start_Field % 20;	// указатель того что голова змеи достигла конца строки
 
@@ -247,48 +257,31 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Mov
 				firstElement_Snake.remove();		    	
 			}
 		}else if (direct_Move == 3){	// движение сверху вниз
-
-				console.log("del_Field = ", del_Field);
-				console.log("start_Field = ", start_Field);
-
-		 	counter_row_fact = ~~(start_Field / 20) + 1;		// находим текущий ряд
-				console.log("counter_row_fact = ", counter_row_fact);
-			if (counter_row_fact >= 20) {			// если номер текущего ряда 20 и более
-					
-				console.log("counter_row >= 20");
-					flag_last_row = 1;	// момент при котором голова уже на первом ряду а всё остальное тело ещё на последних рядах
-
-					// голова на первом ряду
-					start_Field = start_Field - 380;		//преходим на номер поля первого ряда
-					del_Field = start_Field + 340;
+			// расчитать start_Field и del_Field при переходе сконца поля в начало
+			if (counter_row_fact == Strings){
+				start_Field = start_Field - (Strings * Colums - Colums);
+			}else{
+				start_Field = start_Field + 20;
+			}
+			if (start_Field < 3 * Colums) {
+				del_Field = start_Field + (Strings * Colums - 3 * Colums);		// 3 это lengthSnake 
+			}else{
+				del_Field = 10;
 			}
 
-			if (counter_row_fact == 1 && flag_last_row == 1) {
-				start_Field = start_Field + 20;		//преходим на номер поля второго ряда
-				del_Field = start_Field + 340;
+		}else if (direct_Move == 4){	// движение сверху вниз
+				// расчитать start_Field и del_Field при переходе сконца поля в начало
+			if (counter_row_fact == 1){
+				start_Field = start_Field + (Strings * Colums - Colums);
+			}else{
+				start_Field = start_Field - 20;
 			}
-
-			if (counter_row_fact == 2  && flag_last_row == 1){
-				start_Field = start_Field + 20;		//преходим на номер поля третьего ряда
-				del_Field = start_Field + 340;
-			}
-
-			// firstElement_Snake = arr_MainField[del_Field].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
-			// firstElement_Snake.remove();
-
-				// 	k = 0; 	// обнуляю кол-во сегментов тела змеи нарисованных с первого ряда
-					// start_Field = start_Field + 20	// движемся дальше	
-					// firstElement_Snake = arr_MainField[340 + start_Field].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
-				// 	console.log("del_Field", start_Field + 340)
-				// 	firstElement_Snake.remove();
-				// 	k = 0; 	// обнуляю кол-во сегментов тела змеи нарисованных с первого ряда
-				// 	start_Field = start_Field - 20		// удаляю лишние поля
-				// if (q == 2){		// если уже перешёл тогда
-				// 	counter_row = 3		//счёчик рядов ставим на номер текущего ряда
-				// 	q = 0		// обнуляем счёчик по переходу на начало колонки
-				// }
-			// } 
-			counter_row ++;
+			if (start_Field > 3 * Colums) {
+				del_Field = start_Field - (Strings * Colums - 3 * Colums);		// 3 это lengthSnake 
+				console.log("**del_Field = ", del_Field);
+			}else{
+				del_Field = 390;
+			}			
 		}
 	}
 
