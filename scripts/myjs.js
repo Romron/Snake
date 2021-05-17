@@ -196,16 +196,10 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Mov
 					k ++
 				}
 
-			console.log("--------");
-			console.log("**counter_row_fact", counter_row_fact);
-			console.log("**start_Field", start_Field);
-			console.log("**del_Field = ", del_Field);
-			console.log("**k = ", k);
 
 			if (mode_Move == 1 && stop_Field > start_Field){		// делаем движение конечным
 					clearInterval(vertical_time);
 			}else if(mode_Move == 2 && counter_row_fact <= 1 || mode_Move == 2 && del_Field <= 70 && k == 3){   // 3 это lengthSnake 
-				console.log("Move_on_ring start ");
 				Move_on_ring();
 			}else{
 				start_Field = start_Field - 20;

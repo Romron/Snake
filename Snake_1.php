@@ -34,6 +34,7 @@
 </div>
 
 
+<script src="scripts/myjs_test.js"></script>
 <script src="scripts/myjs.js"></script>
 
 
