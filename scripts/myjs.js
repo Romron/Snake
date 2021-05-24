@@ -17,6 +17,8 @@ let flag_last_row = 1;
 let del_Field = 0; // поле удаления
 let a = 0;
 
+let d_M = 2;
+
 window.onload = function(){
 
 	arr_MainField = create_MainField(Colums,Strings);		// создание массива полей
@@ -26,7 +28,45 @@ window.onload = function(){
 	// move_Snake(arr_MainField,Snake,10,390,3,2);
 	move_Snake(arr_MainField,Snake,390,10,4,2);
 
+	contrl_time = setInterval(control,200,d_M);
+
 }
+
+function control(d_M){
+ 
+
+	document.addEventListener('keydown', function(event) {
+   	const key = event.key; 
+   	console.log('key = ',key);
+
+		// if(key == "ArrowLeft"){ 		//left
+			
+		// }
+		// if(key == "ArrowRight"){		//right
+
+		// }
+		// if(key == "ArrowUp"){		//top
+
+		// }
+		// if(key == "ArrowDown"){		//down
+
+		// }
+
+
+
+
+	});
+ 
+		
+
+	// }
+
+
+
+}
+
+
+
 
 function create_MainField(Colums=10,Strings=10){		// функция по созданию поля
 	/*
@@ -128,7 +168,6 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Mov
 			break
 	}
 
-
 	function horizont_Move(stop_Field){		// горизонтальное движение
 		n = 0;
 
@@ -157,7 +196,6 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Mov
 		if (mode_Move == 2) {
 			Move_on_ring();
 		}
-
 	}
 
 	// function vertical_Move(stop_Field, counter_row){		// вертикальное движение
@@ -209,7 +247,7 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Mov
 			}
 
 			}
-		}
+	}
 
 	function Move_on_ring(){
 		if (direct_Move == 1){	// движение с права на лево 
@@ -269,7 +307,6 @@ function move_Snake(arr_MainField,arr_divSnake,start_Field,stop_Field,direct_Mov
 
 		}
 	}
-
 
 	function one_Frame(){
 		// отрисовки кадра
