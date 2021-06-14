@@ -36,6 +36,8 @@ function control(d_M){
 		// if(key == "ArrowLeft"){ 		//left
 			
 		// }
+
+		
 		// if(key == "ArrowRight"){		//right
 
 		// }

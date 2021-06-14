@@ -7,18 +7,54 @@
 let Colums = 20;		// кол-во колонок в MainField
 let Strings = 20;		// кол-во рядов в MainField
 let key;
-
-
-window.onload = function(){
-	begin();
-	
-	time_game = setInterval(frame_of_game,200)
-	console.log("time_game --- = ", time_game);
-
+let n = 0;
+let question_Direct = "start_Direct"; 
+let question_Field = "start_Field";
+direct_Move = question_Direct;
+start_Field = question_Field;
+let length_Snake = 3;
+window.onload = function(arr_Result){
+	arr_Begins = begin();
+	time_game = setInterval(frame_of_game,200,arr_Begins);
 
 }
 
 
+function frame_of_game(arr_Begins) {
+	/*
+		состояние игрового поля каждыйотдельно взятый кадр
+	*/
+	
+	firstElement_Snake = arr_MainField[start_Field - length_Snake].querySelector("div .class_snake");
+	if (firstElement_Snake != null) {
+		firstElement_Snake.remove();		    	
+	}			
+	divSnake = arr_MainField[start_Field];
+	snake = document.createElement('div');
+	snake.className = "class_snake";
+	divSnake.append(snake);	
+	start_Field ++;			
+	let pointer_end_row = start_Field % 20;	// указатель того что голова змеи достигла конца строки
+	if (pointer_end_row == 0) {
+		firstElement_Snake = arr_MainField[start_Field - length_Snake].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
+		firstElement_Snake.remove();		    	
+		start_Field = start_Field - 19;	// начинаю рисовать змею с начала того же ряда
+	}
+	firstElement_Snake = arr_MainField[start_Field - length_Snake + 20].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
+	if (firstElement_Snake != null) {
+				firstElement_Snake.remove();		    	
+			}		
+
+	// document.addEventListener('keydown', control);
+	// let key_Code = control(e);
+	
+
+
+	// console.log("arr_Begins: ", arr_Begins);
+
+
+
+}
 
 
 function begin() {
@@ -26,39 +62,58 @@ function begin() {
 		Инициализация работы всей программы
 	*/
 
-
+	// let arr_Result = question_user();
+	// для тестов
+		let arr_Result = {
+			"start_Field": 67,
+			"start_Direct": 3,
+		};
+	
 	arr_MainField = create_MainField(Colums,Strings);		// создание массива полей	
 	Snake = create_Snake();		// создание змеи
-}
+	set_Snake(arr_Result, Snake);
 
-function frame_of_game() {
-	/*
-		состояние игрового поля каждыйотдельно взятый кадр
-	*/
+	let arr_Results = {arr_Result, Snake}
 
-	function control(event) {
-   	key = event.key; 
-   	console.log('key = ',key);
+	return arr_Results
+	function set_Snake(arr_Result,arr_divSnake){
+		/*
+			
+		*/
+
+		console.log("Snake = ", arr_divSnake);
+		console.log("arr_Result = ", arr_Result);
+		console.log("arr_  ", arr_Result.start_Field	);
+
+
+		start_Field = arr_Result.start_Field; 
+		while(n < arr_divSnake.length){
+		 	arr_MainField[start_Field].append(arr_divSnake[n]);
+		 	start_Field ++;
+		 	n ++;
+		}
 	}
 
+	function question_user(){
+		/*
+			
+		*/
 
-	document.addEventListener('keydown', control);
+		let start_Field = window.prompt("Your start field is?");
+		let start_Direct = window.prompt("Your direct is? 1)To the right; 2)To the left; 3)To the down; 4)To the up");
+		let arr_Result = {
+			"start_Field": start_Field,
+			"start_Direct": start_Direct,
+		};
 
-
-
-   	console.log('*key = ',key);
-
-
-		if(key == "Escape"){ 		//stop
-		// if(key == 's'){ 		//stop
-
-	   	console.log('**key = ',key);
-			document.removeEventListener('keydown', control);
-			clearInterval(time_game);
-		}	
-		
-
+		console.log(arr_Result);
+		return arr_Result;
+	}
 }
+
+
+
+
 
 // =========  functionS  =================
 
