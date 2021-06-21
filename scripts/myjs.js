@@ -13,48 +13,155 @@ let question_Field = "start_Field";
 direct_Move = question_Direct;
 start_Field = question_Field;
 let length_Snake = 3;
+let firstElement_Snake;
+let k = 0;
+let glob_key_Code;
 window.onload = function(arr_Result){
 	arr_Begins = begin();
 	time_game = setInterval(frame_of_game,200,arr_Begins);
 
 }
 
+// =========  functionS  =================
+
+
 
 function frame_of_game(arr_Begins) {
 	/*
 		состояние игрового поля каждыйотдельно взятый кадр
 	*/
-	
-	firstElement_Snake = arr_MainField[start_Field - length_Snake].querySelector("div .class_snake");
-	if (firstElement_Snake != null) {
-		firstElement_Snake.remove();		    	
-	}			
-	divSnake = arr_MainField[start_Field];
-	snake = document.createElement('div');
-	snake.className = "class_snake";
-	divSnake.append(snake);	
-	start_Field ++;			
-	let pointer_end_row = start_Field % 20;	// указатель того что голова змеи достигла конца строки
-	if (pointer_end_row == 0) {
-		firstElement_Snake = arr_MainField[start_Field - length_Snake].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
-		firstElement_Snake.remove();		    	
-		start_Field = start_Field - 19;	// начинаю рисовать змею с начала того же ряда
+	let counter_row_fact = ~~(start_Field / 20) + 1;		// находим текущий ряд
+	to_up()
+	document.addEventListener('keydown', control);
+	console.log("glob_key_Code", glob_key_Code);
+	if(glob_key_Code == "39"){
+		to_right()
 	}
-	firstElement_Snake = arr_MainField[start_Field - length_Snake + 20].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
-	if (firstElement_Snake != null) {
-				firstElement_Snake.remove();		    	
-			}		
+	else if(glob_key_Code == "37"){
+		to_left()
+	}	
+	else if(glob_key_Code == "40"){
+		to_down()
+	}
+	else if(glob_key_Code == "38"){
+		to_up()
+	}	
+		function to_down(){
+			
+	
+			if (start_Field < 3 * Colums){
+				firstElement_Snake = arr_MainField[start_Field + (Strings * Colums - 3 * Colums)].querySelector("div .class_snake");		// 3 это lengthSnake 
+			}else{
+				firstElement_Snake = arr_MainField[start_Field-60].querySelector("div .class_snake");
+			}
 
-	// document.addEventListener('keydown', control);
-	// let key_Code = control(e);
+			if (firstElement_Snake != null) {		// удаляем последний кусок тела змеи
+				firstElement_Snake.remove();		    	
+			}
+			divSnake = arr_MainField[start_Field];	  // находим поле в которое нужно поместить следуйщий кусок змеи
+			console.log("start_Field", start_Field);
+			console.log("divSnake", divSnake);
+			snake = document.createElement('div');	  // создаём следущий кусок змеи
+			snake.className = "class_snake";			  // присваевоем ему класс
+			divSnake.append(snake);	
+			if (k == 3){			// если уже нарисовано 3 сегмента тогда больше не рисовать 
+				k = 3
+			}else{		// иначе создать ещё
+				k ++
+			}
+			if (counter_row_fact == Strings){
+				start_Field = start_Field - (Strings * Colums - Colums);
+			}else{ 
+				start_Field = start_Field + 20;
+			}
+	   }
+		function to_up(){
+			if (start_Field > (Strings * Colums - 3 * Colums)){
+				firstElement_Snake = arr_MainField[start_Field - (Strings * Colums - 3 * Colums)].querySelector("div .class_snake");		// 3 это lengthSnake 
+			}else{
+				firstElement_Snake = arr_MainField[start_Field + 60].querySelector("div .class_snake");
+			}
+
+			if (firstElement_Snake != null) {		// удаляем последний кусок тела змеи
+				firstElement_Snake.remove();		    	
+			}
+			divSnake = arr_MainField[start_Field];	  // находим поле в которое нужно поместить следуйщий кусок змеи
+			snake = document.createElement('div');	  // создаём следущий кусок змеи
+			snake.className = "class_snake";			  // присваевоем ему класс
+			divSnake.append(snake);	
+			if (k == 3){			// если уже нарисовано 3 сегмента тогда больше не рисовать 
+				k = 3
+			}else{		// иначе создать ещё
+				k ++
+			}
+			if (counter_row_fact <= 1){
+				start_Field = start_Field + (Strings * Colums - Colums);
+			}else{
+				start_Field = start_Field - 20;
+			}
+		}
+			}
 	
 
+	function to_right(){	
+			firstElement_Snake = arr_MainField[start_Field - length_Snake].querySelector("div .class_snake");
+			if (firstElement_Snake != null) {
+				firstElement_Snake.remove();		    	
+			}			
+			divSnake = arr_MainField[start_Field];
+			snake = document.createElement('div');
+			snake.className = "class_snake";
+			divSnake.append(snake);	
+			start_Field ++;			
+			let pointer_end_row = start_Field % 20;	// указатель того что голова змеи достигла конца строки
+			if (pointer_end_row == 0) {
+				firstElement_Snake = arr_MainField[start_Field - length_Snake].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
+				firstElement_Snake.remove();		    	
+				start_Field = start_Field - 19;	// начинаю рисовать змею с начала того же ряда
+			}
+			firstElement_Snake = arr_MainField[start_Field - length_Snake + 20].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
+			if (firstElement_Snake != null) {
+				firstElement_Snake.remove();		    	
+			}
+	}
+	function to_left(){	
+			firstElement_Snake = arr_MainField[start_Field + length_Snake].querySelector("div .class_snake");
+			if (firstElement_Snake != null) {
+				firstElement_Snake.remove();		    	
+			}			
+			divSnake = arr_MainField[start_Field];
+			snake = document.createElement('div');
+			snake.className = "class_snake";
+			divSnake.append(snake);	
+			start_Field --;			
+			let pointer_end_row = start_Field % 20;	// указатель того что голова змеи достигла конца строки
+			if (pointer_end_row == 0) {
+				firstElement_Snake = arr_MainField[start_Field + length_Snake].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
+				firstElement_Snake.remove();		    	
+				start_Field = start_Field + 19;	// начинаю рисовать змею с начала того же ряда
+			}
+			firstElement_Snake = arr_MainField[start_Field + length_Snake - 20].querySelector("div .class_snake");	// удаляю части змеи в конце текущего ряда
+			if (firstElement_Snake != null) {
+				firstElement_Snake.remove();		    	
+			}
+	}
 
-	// console.log("arr_Begins: ", arr_Begins);
+function control(e){
+	/*
+		получает код нажатой клавиши
+	*/
+	
+	let key_Code = e.keyCode; 
+	console.log("key_Code==", key_Code);
+  	if(key_Code == 27){ 		//принажатии ESC 
+		document.removeEventListener('keydown', control);
+		clearInterval(time_game);	
+	}	
 
-
-
+	glob_key_Code = key_Code;
+	return key_Code;
 }
+
 
 
 function begin() {
@@ -74,8 +181,8 @@ function begin() {
 	set_Snake(arr_Result, Snake);
 
 	let arr_Results = {arr_Result, Snake}
-
 	return arr_Results
+
 	function set_Snake(arr_Result,arr_divSnake){
 		/*
 			
@@ -110,13 +217,6 @@ function begin() {
 		return arr_Result;
 	}
 }
-
-
-
-
-
-// =========  functionS  =================
-
 
 function create_MainField(Colums=10,Strings=10){		// функция по созданию поля
 	/*
@@ -169,4 +269,3 @@ function create_Snake(lengthSnake=3){		// функция по созданию �
 
     return arr_divSnake;
 }
-
