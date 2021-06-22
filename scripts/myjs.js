@@ -31,7 +31,6 @@ function frame_of_game(arr_Begins) {
 		состояние игрового поля каждыйотдельно взятый кадр
 	*/
 	let counter_row_fact = ~~(start_Field / 20) + 1;		// находим текущий ряд
-	to_up()
 	document.addEventListener('keydown', control);
 	console.log("glob_key_Code", glob_key_Code);
 	if(glob_key_Code == "39"){
